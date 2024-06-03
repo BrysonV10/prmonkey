@@ -1,113 +1,462 @@
-import Image from "next/image";
+/**
+ * v0 by Vercel.
+ * @see https://v0.dev/t/DJvsLcSrwNT
+ * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
+ */
+"use client";
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { ResponsiveLine } from "@nivo/line"
+import { ResponsiveBar } from "@nivo/bar"
+import { ResponsivePie } from "@nivo/pie"
 
-export default function Home() {
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.js</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+export default function Component() {
+  return ( 
+    <div className="flex flex-col min-h-[100dvh]">
+      <header className="bg-[#6366F1] text-white px-4 md:px-6 py-4 flex items-center justify-between">
+        <Link href="#" className="flex items-center gap-2 text-lg font-semibold" prefetch={false}>
+          <BananaIcon className="w-6 h-6 text-[#FCD34D]" />
+          <span>PR Monkey</span> 
+        </Link>
+        <div className="flex items-center gap-4 md:hidden"> 
+          <Button variant="ghost" size="icon" className="rounded-full">
+            <MenuIcon className="w-6 h-6" />
+            <span className="sr-only">Toggle menu</span>
+          </Button>
         </div>
-      </div>
+        <div className="hidden md:flex items-center gap-4">
+          <Link href="#" className="hover:underline" prefetch={false}>
+            Runs
+          </Link>
+          <Link href="#" className="hover:underline" prefetch={false}>
+            Stats
+          </Link>
+          <Button variant="ghost" size="icon" className="rounded-full">
+            <Avatar>
+            <AvatarFallback className="bg-[#ffffff] text-black">JD</AvatarFallback>
+            </Avatar> 
+          </Button>
+        </div>
+      </header>
+      <main className="flex-1 bg-gray-100 dark:bg-gray-800">
+        <div className="container mx-auto py-12 px-4 md:px-6">
+          <div className="grid gap-8 md:grid-cols-3">
+            <div className="bg-white dark:bg-gray-900 rounded-lg shadow-md overflow-hidden">
+              <div className="bg-[#6366F1] text-white py-4 px-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h2 className="text-2xl font-bold">Jane Doe</h2>
+                    <p className="text-sm text-[#FCD34D]">@jdoe</p>
+                  </div>
+                  <Button variant="ghost" size="icon" className="rounded-full">
+                    <SettingsIcon className="w-5 h-5" />
+                  </Button>
+                </div>
+              </div>
+              <div className="p-6 space-y-4">
+                <div className="flex items-center gap-4">
+                  <div>
+                    <h3 className="text-lg font-bold">Personal Bests</h3>
+                    <p className="text-gray-500 dark:text-gray-400">
+                      5K: 20:15
+                      <br />
+                      10K: 42:30
+                      <br />
+                      Half Marathon: 1:45:00
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4">
+                  <MedalIcon className="w-8 h-8 text-[#6366F1]" />
+                  <div>
+                    <h3 className="text-lg font-bold">Achievements</h3>
+                    <div className="flex gap-2">
+                      <Badge variant="secondary" className="bg-[#FCD34D] text-[#6366F1] font-medium">
+                        Sub 21 5K
+                      </Badge>
+                      <Badge variant="secondary" className="bg-[#FCD34D] text-[#6366F1] font-medium">
+                        Sub 2 Hour Half
+                      </Badge>
+                      <Badge variant="secondary" className="bg-[#FCD34D] text-[#6366F1] font-medium">
+                        Top 50%
+                      </Badge>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="col-span-2 space-y-8">
+              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-md p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-2xl font-bold">Run History</h2>
+                  <Button variant="outline" className="bg-[#6366F1] text-white hover:bg-[#4F46E5]">
+                    View All
+                  </Button>
+                </div>
+                <div className="space-y-6">
+                  <div className="flex flex-col md:flex-row items-start gap-4">
+                    <Avatar>
+                      <AvatarFallback className="bg-[#6366F1] text-white">JD</AvatarFallback>
+                    </Avatar>
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <h3 className="font-semibold">Jane Doe</h3>
+                          <p className="text-sm text-gray-500 dark:text-gray-400">New 5K PR: 20:15</p>
+                        </div>
+                        <div className="text-sm text-gray-500 dark:text-gray-400">2 hours ago</div>
+                      </div>
+                      
+                    </div>
+                  </div>
+                  <div className="flex flex-col md:flex-row items-start gap-4">
+                    <Avatar>
+                      <AvatarFallback className="bg-[#6366F1] text-white">JD</AvatarFallback>
+                    </Avatar>
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <h3 className="font-semibold">John Doe</h3>
+                          <p className="text-sm text-gray-500 dark:text-gray-400">New 10K PR: 42:30</p>
+                        </div>
+                        <div className="text-sm text-gray-500 dark:text-gray-400">1 day ago</div>
+                      </div>
+                      <div className="mt-2">
+                        <div className="rounded-lg" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="bg-white dark:bg-gray-900 rounded-lg shadow-md p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-2xl font-bold">Run Analytics</h2>
+                  <Button variant="outline" className="bg-[#6366F1] text-white hover:bg-[#4F46E5]">
+                    View All
+                  </Button>
+                </div>
+                <div className="grid gap-6 md:grid-cols-2">
+                  <div>
+                    <h3 className="text-lg font-bold mb-2">Pace Trends</h3>
+                    <LineChart className="w-full aspect-[4/3]" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold mb-2">Personal Records</h3>
+                    <BarChart className="w-full aspect-[4/3]" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold mb-2">Community Comparison</h3>
+                    <BarChart className="w-full aspect-[4/3]" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold mb-2">Run Breakdown</h3>
+                    <PieChart className="w-full aspect-[4/3]" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+      <footer className="bg-[#6366F1] text-white px-4 md:px-6 py-4 flex flex-col md:flex-row items-center justify-between">
+        <p className="text-sm">&copy; 2024 PR Monkey</p>
+        <nav className="flex items-center gap-4 mt-4 md:mt-0">
+          <Link href="#" className="hover:underline" prefetch={false}>
+            Terms
+          </Link>
+          <Link href="#" className="hover:underline" prefetch={false}>
+            Privacy
+          </Link>
+          <Link href="#" className="hover:underline" prefetch={false}>
+            Contact
+          </Link>
+        </nav>
+      </footer>
+    </div>
+  )
+}
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-full sm:before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full sm:after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+function BananaIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M4 13c3.5-2 8-2 10 2a5.5 5.5 0 0 1 8 5" />
+      <path d="M5.15 17.89c5.52-1.52 8.65-6.89 7-12C11.55 4 11.5 2 13 2c3.22 0 5 5.5 5 8 0 6.5-4.2 12-10.49 12C5.11 22 2 22 2 20c0-1.5 1.14-1.55 3.15-2.11Z" />
+    </svg>
+  )
+}
 
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800 hover:dark:bg-opacity-30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
+function BarChart(props) {
+  return (
+    <div {...props}>
+      <ResponsiveBar
+        data={[
+          { name: "Jan", count: 111 },
+          { name: "Feb", count: 157 },
+          { name: "Mar", count: 129 },
+          { name: "Apr", count: 150 },
+          { name: "May", count: 119 },
+          { name: "Jun", count: 72 },
+        ]}
+        keys={["count"]}
+        indexBy="name"
+        margin={{ top: 0, right: 0, bottom: 40, left: 40 }}
+        padding={0.3}
+        colors={["#2563eb"]}
+        axisBottom={{
+          tickSize: 0,
+          tickPadding: 16,
+        }}
+        axisLeft={{
+          tickSize: 0,
+          tickValues: 4,
+          tickPadding: 16,
+        }}
+        gridYValues={4}
+        theme={{
+          tooltip: {
+            chip: {
+              borderRadius: "9999px",
+            },
+            container: {
+              fontSize: "12px",
+              textTransform: "capitalize",
+              borderRadius: "6px",
+            },
+          },
+          grid: {
+            line: {
+              stroke: "#f3f4f6",
+            },
+          },
+        }}
+        tooltipLabel={({ id }) => `${id}`}
+        enableLabel={false}
+        role="application"
+        ariaLabel="A bar chart showing data"
+      />
+    </div>
+  )
+}
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore starter templates for Next.js.
-          </p>
-        </a>
 
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50 text-balance`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  );
+function LineChart(props) {
+  return (
+    <div {...props}>
+      <ResponsiveLine
+        data={[
+          {
+            id: "Desktop",
+            data: [
+              { x: "Jan", y: 43 },
+              { x: "Feb", y: 137 },
+              { x: "Mar", y: 61 },
+              { x: "Apr", y: 145 },
+              { x: "May", y: 26 },
+              { x: "Jun", y: 154 },
+            ],
+          },
+          {
+            id: "Mobile",
+            data: [
+              { x: "Jan", y: 60 },
+              { x: "Feb", y: 48 },
+              { x: "Mar", y: 177 },
+              { x: "Apr", y: 78 },
+              { x: "May", y: 96 },
+              { x: "Jun", y: 204 },
+            ],
+          },
+        ]}
+        margin={{ top: 10, right: 10, bottom: 40, left: 40 }}
+        xScale={{
+          type: "point",
+        }}
+        yScale={{
+          type: "linear",
+        }}
+        axisTop={null}
+        axisRight={null}
+        axisBottom={{
+          tickSize: 0,
+          tickPadding: 16,
+        }}
+        axisLeft={{
+          tickSize: 0,
+          tickValues: 5,
+          tickPadding: 16,
+        }}
+        colors={["#2563eb", "#e11d48"]}
+        pointSize={6}
+        useMesh={true}
+        gridYValues={6}
+        theme={{
+          tooltip: {
+            chip: {
+              borderRadius: "9999px",
+            },
+            container: {
+              fontSize: "12px",
+              textTransform: "capitalize",
+              borderRadius: "6px",
+            },
+          },
+          grid: {
+            line: {
+              stroke: "#f3f4f6",
+            },
+          },
+        }}
+        role="application"
+      />
+    </div>
+  )
+}
+
+
+function MedalIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M7.21 15 2.66 7.14a2 2 0 0 1 .13-2.2L4.4 2.8A2 2 0 0 1 6 2h12a2 2 0 0 1 1.6.8l1.6 2.14a2 2 0 0 1 .14 2.2L16.79 15" />
+      <path d="M11 12 5.12 2.2" />
+      <path d="m13 12 5.88-9.8" />
+      <path d="M8 7h8" />
+      <circle cx="12" cy="17" r="5" />
+      <path d="M12 18v-2h-.5" />
+    </svg>
+  )
+}
+
+
+function MenuIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <line x1="4" x2="20" y1="12" y2="12" />
+      <line x1="4" x2="20" y1="6" y2="6" />
+      <line x1="4" x2="20" y1="18" y2="18" />
+    </svg>
+  )
+}
+
+
+function PieChart(props) {
+  return (
+    <div {...props}>
+      <ResponsivePie
+        data={[
+          { id: "Jan", value: 111 },
+          { id: "Feb", value: 157 },
+          { id: "Mar", value: 129 },
+          { id: "Apr", value: 150 },
+          { id: "May", value: 119 },
+          { id: "Jun", value: 72 },
+        ]}
+        sortByValue
+        margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
+        cornerRadius={0}
+        padAngle={0}
+        borderWidth={1}
+        borderColor={"#ffffff"}
+        enableArcLinkLabels={false}
+        arcLabel={(d) => `${d.id}`}
+        arcLabelsTextColor={"#ffffff"}
+        arcLabelsRadiusOffset={0.65}
+        colors={["#2563eb"]}
+        theme={{
+          labels: {
+            text: {
+              fontSize: "18px",
+            },
+          },
+          tooltip: {
+            chip: {
+              borderRadius: "9999px",
+            },
+            container: {
+              fontSize: "12px",
+              textTransform: "capitalize",
+              borderRadius: "6px",
+            },
+          },
+        }}
+        role="application"
+      />
+    </div>
+  )
+}
+
+
+function SettingsIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+      <circle cx="12" cy="12" r="3" />
+    </svg>
+  )
+}
+
+
+function ShirtIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z" />
+    </svg>
+  )
 }
