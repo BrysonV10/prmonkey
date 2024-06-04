@@ -17,6 +17,7 @@ export default function Navbar(){
           </Button>
         </div>
         <div className="hidden md:flex items-center gap-4">
+          <p>Search</p>
           <Link href="#" className="hover:underline" prefetch={false}>
             Runs
           </Link>
@@ -32,3 +33,42 @@ export default function Navbar(){
       </header>
     )
 }
+
+function DarkNavbar(props){
+  return (
+    <header className="bg-gray-900 px-4 py-6 text-white md:px-6 lg:px-8">
+        <div className="container mx-auto flex items-center justify-between">
+          <Link href="/">
+          <div className="flex items-center gap-2">
+            <BananaIcon className="h-8 w-8" />
+            <span className="text-xl font-bold">PR Monkey</span>
+          </div>
+          </Link>
+          <nav className="hidden space-x-4 md:flex">
+            <Link href="/about" className="hover:underline" prefetch={false}>
+              About
+            </Link>
+            <Link href="/contact" className="hover:underline" prefetch={false}>
+              Contact
+            </Link>
+            {
+              !props.hideAuth?
+              <>
+              <Link href="/signup" className="hover:underline font-bold">
+              Sign Up
+            </Link>
+            <Link href="/login" className='hover:underline font-bold'>
+              Log In
+            </Link>
+              </>
+              :
+              null
+            }
+            
+          </nav>
+        </div>
+      </header>
+  )
+}
+
+export {DarkNavbar, Navbar}
