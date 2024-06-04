@@ -11,35 +11,12 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { ResponsiveLine } from "@nivo/line"
 import { ResponsiveBar } from "@nivo/bar"
 import { ResponsivePie } from "@nivo/pie"
+import Navbar from "@/components/navbar";
 
 export default function Component() {
   return ( 
     <div className="flex flex-col min-h-[100dvh]">
-      <header className="bg-[#6366F1] text-white px-4 md:px-6 py-4 flex items-center justify-between">
-        <Link href="#" className="flex items-center gap-2 text-lg font-semibold" prefetch={false}>
-          <BananaIcon className="w-6 h-6 text-[#FCD34D]" />
-          <span>PR Monkey</span> 
-        </Link>
-        <div className="flex items-center gap-4 md:hidden"> 
-          <Button variant="ghost" size="icon" className="rounded-full">
-            <MenuIcon className="w-6 h-6" />
-            <span className="sr-only">Toggle menu</span>
-          </Button>
-        </div>
-        <div className="hidden md:flex items-center gap-4">
-          <Link href="#" className="hover:underline" prefetch={false}>
-            Runs
-          </Link>
-          <Link href="#" className="hover:underline" prefetch={false}>
-            Stats
-          </Link>
-          <Button variant="ghost" size="icon" className="rounded-full">
-            <Avatar>
-            <AvatarFallback className="bg-[#ffffff] text-black">JD</AvatarFallback>
-            </Avatar> 
-          </Button>
-        </div>
-      </header>
+      <Navbar/>
       <main className="flex-1 bg-gray-100 dark:bg-gray-800">
         <div className="container mx-auto py-12 px-4 md:px-6">
           <div className="grid gap-8 md:grid-cols-3">
@@ -60,6 +37,12 @@ export default function Component() {
                   <div>
                     <h3 className="text-lg font-bold">Personal Bests</h3>
                     <p className="text-gray-500 dark:text-gray-400">
+                      800m: 2:30
+                      <br/>
+                      1600m: 5:27
+                      <br/>
+                      3200m: 11:36
+                      <br/>
                       5K: 20:15
                       <br />
                       10K: 42:30
@@ -103,7 +86,7 @@ export default function Component() {
                     <div className="flex-1">
                       <div className="flex items-center justify-between">
                         <div>
-                          <h3 className="font-semibold">Jane Doe</h3>
+                          <h3 className="font-semibold">Caledonia Kilt Klassic 5K</h3>
                           <p className="text-sm text-gray-500 dark:text-gray-400">New 5K PR: 20:15</p>
                         </div>
                         <div className="text-sm text-gray-500 dark:text-gray-400">2 hours ago</div>
@@ -118,8 +101,8 @@ export default function Component() {
                     <div className="flex-1">
                       <div className="flex items-center justify-between">
                         <div>
-                          <h3 className="font-semibold">John Doe</h3>
-                          <p className="text-sm text-gray-500 dark:text-gray-400">New 10K PR: 42:30</p>
+                          <h3 className="font-semibold">Amway River Bank Run</h3>
+                          <p className="text-sm text-gray-500 dark:text-gray-400">New 25K PR: 2:02:02</p>
                         </div>
                         <div className="text-sm text-gray-500 dark:text-gray-400">1 day ago</div>
                       </div>
@@ -178,25 +161,6 @@ export default function Component() {
   )
 }
 
-function BananaIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M4 13c3.5-2 8-2 10 2a5.5 5.5 0 0 1 8 5" />
-      <path d="M5.15 17.89c5.52-1.52 8.65-6.89 7-12C11.55 4 11.5 2 13 2c3.22 0 5 5.5 5 8 0 6.5-4.2 12-10.49 12C5.11 22 2 22 2 20c0-1.5 1.14-1.55 3.15-2.11Z" />
-    </svg>
-  )
-}
 
 
 function BarChart(props) {
@@ -351,27 +315,6 @@ function MedalIcon(props) {
   )
 }
 
-
-function MenuIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <line x1="4" x2="20" y1="12" y2="12" />
-      <line x1="4" x2="20" y1="6" y2="6" />
-      <line x1="4" x2="20" y1="18" y2="18" />
-    </svg>
-  )
-}
 
 
 function PieChart(props) {
