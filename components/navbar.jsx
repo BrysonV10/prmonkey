@@ -3,7 +3,11 @@ import Link from 'next/link'
 import { Button } from './ui/button'
 import BananaIcon from './banana'
 import MenuIcon from './menuIcon'
+import { firebaseApp } from 'utils/firebase/config'
+import { getAuth, signOut } from 'firebase/auth'
 export default function Navbar(){
+  const auth = getAuth(firebaseApp);
+
     return (
         <header className="bg-[#6366F1] text-white px-4 md:px-6 py-4 flex items-center justify-between">
         <Link href="#" className="flex items-center gap-2 text-lg font-semibold" prefetch={false}>
@@ -24,6 +28,7 @@ export default function Navbar(){
           <Link href="#" className="hover:underline" prefetch={false}>
             Stats
           </Link>
+          <p onClick={()=>signOut(auth)}>Sign Out</p>
           <Button variant="ghost" size="icon" className="rounded-full">
             <Avatar>
             <AvatarFallback className="bg-[#ffffff] text-black">JD</AvatarFallback>

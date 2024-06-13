@@ -1,3 +1,4 @@
+"use client"
 /**
  * v0 by Vercel.
  * @see https://v0.dev/t/nmgWj74RwGh
@@ -7,10 +8,39 @@ import Link from "next/link"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import BananaIcon from "@/components/banana"
 import Footer from "@/components/footer"
 import { DarkNavbar } from "@/components/navbar"
+import { useState } from "react"
+import BananaLoader from "components/bananaLoader"
+import { firebaseApp } from "utils/firebase/config"
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth"
+import { useRouter } from "next/navigation"
+import { Alert, AlertTitle, AlertDescription } from "components/ui/alert"
+
 export default function Component() {
+  let [email, setEmail] = useState("");
+  let [password, setPassword] = useState("");
+  let [loading, setLoading] = useState(false);
+  let [error, setError] = useState("");
+  let router = useRouter();
+  const auth = getAuth(firebaseApp)
+  function login(e){
+    e.preventDefault();
+    setLoading(true);
+    signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
+      // Signed in 
+      const user = userCredential.user
+      console.log(user);
+      router.push("/")
+    }).catch(error => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(errorCode, errorMessage);
+      setError(errorMessage);
+      setLoading(false);
+    })
+  }
+
   return (
     <div className="flex min-h-[100dvh] flex-col">
       <DarkNavbar hideAuth={true}/>
@@ -27,18 +57,25 @@ export default function Component() {
             </div>
             <div className="rounded-lg bg-white p-6 shadow-lg md:p-8">
               <h2 className="mb-4 text-2xl font-bold text-black">Sign in to PR Monkey</h2>
-              <form className="space-y-4">
+              <form className="space-y-4" onSubmit={login}>
                 <div>
                   <Label htmlFor="email">Email</Label>
-                  <Input id="email" type="email" placeholder="name@example.com" required className="text-black"/>
+                  <Input id="email" type="email" placeholder="name@example.com" required className="text-black" value={email} onChange={(e)=>setEmail(e.target.value)}/>
                 </div>
                 <div>
                   <Label htmlFor="password">Password</Label>
-                  <Input id="password" type="password" placeholder="Enter your password" required className="text-black"/>
+                  <Input id="password" type="password" placeholder="Enter your password" required className="text-black" value={password} onChange={(e)=>setPassword(e.target.value)}/>
                 </div>
                 <Button type="submit" className="w-full">
-                  Sign in
+                  {loading?<BananaLoader/>:"Sign In"}
                 </Button>
+                {error!=""?
+              <Alert>
+                <AlertTitle>Oops! Something went wrong!</AlertTitle>
+                <AlertDescription>{error}</AlertDescription>
+              </Alert>
+              :null
+              }
               </form>
               <br/>
               <p className="text-black">Haven't joined yet? <Link href="/signup" className="font-bold">Join Us Now!</Link></p>
