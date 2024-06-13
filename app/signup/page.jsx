@@ -7,7 +7,6 @@ import Link from "next/link"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import BananaIcon from "@/components/banana"
 import Footer from "@/components/footer"
 import { DarkNavbar } from "@/components/navbar"
 
