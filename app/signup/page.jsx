@@ -15,6 +15,7 @@ import { useState } from "react"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import BananaLoader from "@/components/bananaLoader"
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore"
 import { firebaseApp } from "utils/firebase/config"
 import { useRouter } from "next/navigation"
 
@@ -30,6 +31,7 @@ export default function Component() {
   let [error, setError] = useState("");
 
   let auth = getAuth(firebaseApp);
+  const db = getFirestore(firebaseApp);
   let router = useRouter();
 
   function signUpUser(e){
@@ -55,21 +57,38 @@ export default function Component() {
     }
   }
 
-  function partTwo(e){
+  async function partTwo(e){
     e.preventDefault();
     setLoading(true)
-    updateProfile(auth.currentUser, {
-      displayName: name,
-      photoURL: username
-    }).then(() => {
-      console.log("Profile Updated!");
-      setLoading(false);
-      setError("")
-      setPart(3);
+    await getDoc(doc(db, "users", "@"+username)).then((docSnap) => {
+      if (docSnap.exists()) {
+        setError("Username already exists! Please choose another username.");
+        setLoading(false);
+      } else {
+        console.log("No such document!");
+        setDoc(doc(db, "users", "@"+username), {
+          name: name,
+          username: "@"+username,
+          uid: auth.currentUser.uid
+        })
+        updateProfile(auth.currentUser, {
+          displayName: name,
+          photoURL: "@"+username
+        }).then(() => {
+          console.log("Profile Updated!");
+          setLoading(false);
+          setError("")
+          setPart(3);
+        }).catch((error) => {
+          console.log(error);
+          setError(error.message);
+        });
+      }
     }).catch((error) => {
-      console.log(error);
+      console.log("Error getting document:", error);
       setError(error.message);
-    });
+      setLoading(false);
+    })
   }
 
   return (
@@ -158,7 +177,7 @@ export default function Component() {
           <div className="space-y-4">
           <p className="text-black">We've sent a verification email to <span className="font-bold">{email}</span>. Please verify your email address before continuing.</p>
           <br/>
-          <Button className="w-full" onClick={()=>{setLoading(true);router.push("/");}}>{loading&&part==3?<BananaLoader/>:"I've Verified my Email Address"}</Button>
+          <Button className="w-full" onClick={()=>{setLoading(true);router.push("/dashboard");}}>{loading&&part==3?<BananaLoader/>:"I've Verified my Email Address"}</Button>
           <br/>
           <br/>
           </div>

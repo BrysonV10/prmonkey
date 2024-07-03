@@ -31,7 +31,7 @@ export default function Component() {
       // Signed in 
       const user = userCredential.user
       console.log(user);
-      router.push("/")
+      router.push("/dashboard")
     }).catch(error => {
       const errorCode = error.code;
       const errorMessage = error.message;
