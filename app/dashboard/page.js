@@ -12,8 +12,11 @@ import { ResponsiveLine } from "@nivo/line"
 import { ResponsiveBar } from "@nivo/bar"
 import { ResponsivePie } from "@nivo/pie"
 import Navbar from "@/components/navbar";
+import { useRouter } from "next/navigation";
+import { Router } from "lucide-react";
 
 export default function Component() {
+  let router = useRouter();
   return ( 
     <div className="flex flex-col min-h-[100dvh]">
       <Navbar/>
@@ -24,17 +27,19 @@ export default function Component() {
               <div className="bg-[#6366F1] text-white py-4 px-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h2 className="text-2xl font-bold">Jane Doe</h2>
-                    <p className="text-sm text-[#FCD34D]">@jdoe</p>
+                    <h2 className="text-2xl font-bold">Bryson Van Ryn</h2>
+                    <p className="text-sm text-[#FCD34D]">@brysonvanryn</p>
                   </div>
                   <Button variant="ghost" size="icon" className="rounded-full">
-                    <SettingsIcon className="w-5 h-5" />
+                    <SettingsIcon className="w-5 h-5" onClick={()=>router.push("/dashboard/settings")}/>
                   </Button>
                 </div>
               </div>
               <div className="p-6 space-y-4">
                 <div className="flex items-center gap-4">
                   <div>
+                    <p>I like running I guess.</p>
+                    <br/>
                     <h3 className="text-lg font-bold">Personal Bests</h3>
                     <p className="text-gray-500 dark:text-gray-400">
                       800m: 2:30
