@@ -12,8 +12,6 @@ import Footer from "@/components/footer"
 import { DarkNavbar } from "@/components/navbar"
 import { useState } from "react"
 import BananaLoader from "components/bananaLoader"
-import { firebaseApp } from "utils/firebase/config"
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth"
 import { useRouter } from "next/navigation"
 import { Alert, AlertTitle, AlertDescription } from "components/ui/alert"
 
@@ -23,22 +21,11 @@ export default function Component() {
   let [loading, setLoading] = useState(false);
   let [error, setError] = useState("");
   let router = useRouter();
-  const auth = getAuth(firebaseApp)
   function login(e){
     e.preventDefault();
     setLoading(true);
-    signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
-      // Signed in 
-      const user = userCredential.user
-      console.log(user);
-      router.push("/dashboard")
-    }).catch(error => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log(errorCode, errorMessage);
-      setError(errorMessage);
-      setLoading(false);
-    })
+    router.push("/dashboard")
+    
   }
 
   return (

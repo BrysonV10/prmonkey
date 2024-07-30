@@ -14,9 +14,6 @@ import { DarkNavbar } from "@/components/navbar"
 import { useState } from "react"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import BananaLoader from "@/components/bananaLoader"
-import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore"
-import { firebaseApp } from "utils/firebase/config"
 import { useRouter } from "next/navigation"
 
 
@@ -30,65 +27,28 @@ export default function Component() {
   let [loading, setLoading] = useState(false);
   let [error, setError] = useState("");
 
-  let auth = getAuth(firebaseApp);
-  const db = getFirestore(firebaseApp);
+ 
   let router = useRouter();
 
   function signUpUser(e){
     e.preventDefault();
+    
     if(password.length > 6){
       setLoading(true);
-      createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in 
-        const user = userCredential.user;
-        console.log(user);
-        setLoading(false);
-        setError("");
-        setPart(2);
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
-        setError(errorMessage);
-        setLoading(false);
-      });
+      setLoading(false);
+      setError("");
+      setPart(2);
+      
     }
   }
 
   async function partTwo(e){
     e.preventDefault();
     setLoading(true)
-    await getDoc(doc(db, "users", "@"+username)).then((docSnap) => {
-      if (docSnap.exists()) {
-        setError("Username already exists! Please choose another username.");
-        setLoading(false);
-      } else {
-        console.log("No such document!");
-        setDoc(doc(db, "users", "@"+username), {
-          name: name,
-          username: "@"+username,
-          uid: auth.currentUser.uid
-        })
-        updateProfile(auth.currentUser, {
-          displayName: name,
-          photoURL: "@"+username
-        }).then(() => {
-          console.log("Profile Updated!");
-          setLoading(false);
-          setError("")
-          setPart(3);
-        }).catch((error) => {
-          console.log(error);
-          setError(error.message);
-        });
-      }
-    }).catch((error) => {
-      console.log("Error getting document:", error);
-      setError(error.message);
-      setLoading(false);
-    })
+    setLoading(false);
+    setError("")
+    setPart(3);
+    
   }
 
   return (
