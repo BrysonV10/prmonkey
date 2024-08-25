@@ -8,7 +8,7 @@ import PocketBase from 'pocketbase'
 import {useRouter} from "next/navigation"
 export default function Navbar(){
     let router = useRouter();
-    let pb = new PocketBase("http://127.0.0.1:8090");
+    let pb = new PocketBase(process.env.NEXT_PUBLIC_PB_URL);
     return (
         <header className="bg-[#6366F1] text-white px-4 md:px-6 py-4 flex items-center justify-between">
         <Link href="#" className="flex items-center gap-2 text-lg font-semibold" prefetch={false}>

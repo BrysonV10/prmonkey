@@ -21,7 +21,7 @@ export default function Component() {
   let [loading, setLoading] = useState(false);
   let [error, setError] = useState("");
   let router = useRouter();
-  const pb = new PocketBase("http://127.0.0.1:8090")
+  const pb = new PocketBase(process.env.NEXT_PUBLIC_PB_URL);
 
 
   async function login(e){
@@ -42,7 +42,6 @@ export default function Component() {
       setLoading(false);
       router.push("/dashboard");
     }
-    
   }
 
   return (

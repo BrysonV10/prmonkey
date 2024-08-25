@@ -14,9 +14,11 @@ import { ResponsivePie } from "@nivo/pie"
 import Navbar from "@/components/navbar";
 import { useRouter } from "next/navigation";
 import { Router } from "lucide-react";
+import PocketBase from "pocketbase";
 
 export default function Component() {
   let router = useRouter();
+  const pb = new PocketBase(process.env.NEXT_PUBLIC_PB_URL);
   return ( 
     <div className="flex flex-col min-h-[100dvh]">
       <Navbar/>
