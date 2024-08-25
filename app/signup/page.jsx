@@ -15,7 +15,7 @@ import { useState } from "react"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import BananaLoader from "@/components/bananaLoader"
 import { useRouter } from "next/navigation"
-
+import PocketBase from "pocketbase"
 
 export default function Component() {
   let [email, setEmail] = useState("");
@@ -27,14 +27,39 @@ export default function Component() {
   let [loading, setLoading] = useState(false);
   let [error, setError] = useState("");
 
+  const pb = new PocketBase("http://127.0.0.1:8090")
  
   let router = useRouter();
 
-  function signUpUser(e){
+  async function signUpUser(e){
     e.preventDefault();
     
     if(password.length > 6){
       setLoading(true);
+      // checking if email already exists
+      let res = await fetch(`http://localhost:8090/checkEmail?email=${email}`);
+      if(!res.ok){
+        setError("An error occurred, please try again later.");
+        setLoading(false);
+        return;
+      }
+      let data = await res.json();
+      try {
+        if(data.exists){
+          setError("User with this email already exists, please log in");
+          setLoading(false);
+          return;
+        } else {
+          // SUCCESS
+          setLoading(false);
+          setError("");
+          setPart(2);
+        }
+      } catch(e){
+        setError("An error occurred, please try again later.");
+        setLoading(false);
+        return;
+      }
       setLoading(false);
       setError("");
       setPart(2);
@@ -45,10 +70,38 @@ export default function Component() {
   async function partTwo(e){
     e.preventDefault();
     setLoading(true)
-    setLoading(false);
-    setError("")
-    setPart(3);
-    
+    let res = await fetch(`http://localhost:8090/checkUsername?username=${username}`);
+    if(!res.ok){
+      setError("An error occurred, please try again later.");
+      setLoading(false);
+      return;
+    }
+    let data = await res.json();
+    try {
+      if(data.exists){
+        setError("User with this username already exists, please choose another.");
+        setLoading(false);
+        return;
+      } else {
+        // SUCCESS
+        await pb.collection("users").create({
+          email: email,
+          name: name,
+          username: username,
+          password: password,
+          passwordConfirm: password
+        });
+        await pb.collection("users").authWithPassword(email, password);
+        await pb.collection("users").requestVerification(email);
+        setLoading(false);
+        setError("");
+        setPart(3);
+      }
+    } catch(e){
+      setError("An error occurred, please try again later.");
+      setLoading(false);
+      return;
+    }
   }
 
   return (

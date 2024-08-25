@@ -14,17 +14,34 @@ import { useState } from "react"
 import BananaLoader from "components/bananaLoader"
 import { useRouter } from "next/navigation"
 import { Alert, AlertTitle, AlertDescription } from "components/ui/alert"
-
+import PocketBase from "pocketbase"
 export default function Component() {
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
   let [loading, setLoading] = useState(false);
   let [error, setError] = useState("");
   let router = useRouter();
-  function login(e){
+  const pb = new PocketBase("http://127.0.0.1:8090")
+
+
+  async function login(e){
     e.preventDefault();
     setLoading(true);
-    router.push("/dashboard")
+    let authData;
+    try {
+      authData = await pb.collection("users").authWithPassword(email, password);
+    } catch (e) {
+      if(e.message=="Invalid email or password"){
+        setError("Invalid email or password");
+        setLoading(false);
+        return;
+      }
+    }
+    console.log(authData)
+    if(authData){
+      setLoading(false);
+      router.push("/dashboard");
+    }
     
   }
 

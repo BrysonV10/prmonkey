@@ -1,9 +1,14 @@
+"use client"
 import { Avatar, AvatarFallback } from './ui/avatar'
 import Link from 'next/link'
 import { Button } from './ui/button'
 import BananaIcon from './banana'
 import MenuIcon from './menuIcon'
+import PocketBase from 'pocketbase'
+import {useRouter} from "next/navigation"
 export default function Navbar(){
+    let router = useRouter();
+    let pb = new PocketBase("http://127.0.0.1:8090");
     return (
         <header className="bg-[#6366F1] text-white px-4 md:px-6 py-4 flex items-center justify-between">
         <Link href="#" className="flex items-center gap-2 text-lg font-semibold" prefetch={false}>
@@ -24,7 +29,9 @@ export default function Navbar(){
           <Link href="#" className="hover:underline" prefetch={false}>
             Stats
           </Link>
-          <p>Sign Out</p>
+          <p className='hover:underline cursor-pointer' onClick={()=>{pb.authStore.clear(); router.push("/")}}>
+            Sign Out
+          </p>
           <Button variant="ghost" size="icon" className="rounded-full">
             <Avatar>
             <AvatarFallback className="bg-[#ffffff] text-black">JD</AvatarFallback>
