@@ -42,14 +42,19 @@ export default function Component() {
         console.error(e);
       }
       console.log(profile);
-      setProfileInfo(profile.items[0]);
+      try {
+        setProfileInfo(profile.items[0]);
+      } catch (e){
+        console.error(e);
+      }
+      
     }
     getProfileInfo();
   }, []);
 
   return ( 
     <div className="flex flex-col min-h-[100dvh]">
-      <Navbar/>
+      <Navbar initials={authState ? authState.name.split(" ").map(word => word[0]).join("") : ""} />
       <main className="flex-1 bg-gray-100 dark:bg-gray-800">
         <div className="container mx-auto py-12 px-4 md:px-6">
           <div className="grid gap-8 md:grid-cols-3">
@@ -57,7 +62,7 @@ export default function Component() {
               <div className="bg-[#6366F1] text-white py-4 px-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-xs italic"><Pin/> Caledonia, MI</p>
+                    <p className="text-xs italic">{profileInfo?<><Pin/> Caledonia, MI</>:"Loading..."}</p>
                     <h2 className="text-2xl font-bold">{authState?authState.name:"Loading..."}</h2>
                     <p className="text-sm text-[#FCD34D]">{authState?"@"+authState.username:"Loading..."}</p>
                   </div>

@@ -6,7 +6,7 @@ import BananaIcon from './banana'
 import MenuIcon from './menuIcon'
 import PocketBase from 'pocketbase'
 import {useRouter} from "next/navigation"
-export default function Navbar(){
+export default function Navbar(props){
     let router = useRouter();
     let pb = new PocketBase(process.env.NEXT_PUBLIC_PB_URL);
     return (
@@ -34,7 +34,7 @@ export default function Navbar(){
           </p>
           <Button variant="ghost" size="icon" className="rounded-full">
             <Avatar>
-            <AvatarFallback className="bg-[#ffffff] text-black">JD</AvatarFallback>
+            <AvatarFallback className="bg-[#ffffff] text-black">{props.initials}</AvatarFallback>
             </Avatar> 
           </Button>
         </div>
