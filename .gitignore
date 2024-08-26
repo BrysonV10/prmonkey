@@ -38,3 +38,4 @@ bun.lockb
 
 utils/firebase/config.js
 .env
+.vscode/

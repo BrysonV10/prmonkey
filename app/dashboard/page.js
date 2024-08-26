@@ -52,6 +52,18 @@ export default function Component() {
     getProfileInfo();
   }, []);
 
+  function makeTimeReadable(time){
+    let hours = Math.floor(time/3600);
+    let minutes = Math.floor((time%3600)/60);
+    let seconds = Math.floor(time%60);
+    if(hours < 10) hours = `0${hours}`;
+    if(minutes < 10) minutes = `0${minutes}`;
+    if(seconds < 10) seconds = `0${seconds}`;
+    if(hours == "00") return `${minutes}:${seconds}`;
+    if(minutes == "00") return `${seconds}`;
+    return `${hours}:${minutes}:${seconds}`;
+  }
+
   return ( 
     <div className="flex flex-col min-h-[100dvh]">
       <Navbar initials={authState ? authState.name.split(" ").map(word => word[0]).join("") : ""} />
@@ -78,17 +90,7 @@ export default function Component() {
                     <br/>
                     <h3 className="text-lg font-bold">Personal Bests</h3>
                     <p className="text-gray-500 dark:text-gray-400">
-                      800m: 2:30
-                      <br/>
-                      1600m: 5:27
-                      <br/>
-                      3200m: 11:36
-                      <br/>
-                      5K: 20:15
-                      <br />
-                      10K: 42:30
-                      <br />
-                      Half Marathon: 1:45:00
+                      {profileInfo?profileInfo.prs.prs.map(pr => <p>{pr.race}: {makeTimeReadable(pr.time)}</p>):"Loading..."}
                     </p>
                   </div>
                 </div>
