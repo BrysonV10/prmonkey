@@ -10,9 +10,15 @@ import Navbar from "@/components/navbar";
 import Footer from "components/footer"
 import { useRouter } from "next/navigation"
 import { Textarea } from "components/ui/textarea"
+import PocketBase from "pocketbase"
+import {useState} from "react"
 
 export default function Component() {
     let router = useRouter();
+    let pb = new PocketBase(process.env.NEXT_PUBLIC_PB_URL);
+    let [name, setName] = useState(pb.authStore.model.name);
+    let [email, setEmail] = useState(pb.authStore.model.email);
+    let [username, setUsername] = useState(pb.authStore.model.username);
     return (
     <div className="flex flex-col min-h-[100dvh] bg-background">
         <Navbar />
@@ -31,18 +37,18 @@ export default function Component() {
                 <ChevronRightIcon className="w-5 h-5 text-muted-foreground transition-transform" />
                 </CollapsibleTrigger>
                 <CollapsibleContent className="p-4 bg-card rounded-md">
-                <div className="grid gap-4">
+                <div className="grid gap-4" aria-autocomplete="off">
                     <div className="grid gap-1">
                     <Label htmlFor="name">Name</Label>
-                    <Input id="name" placeholder="Your name" />
+                    <Input id="name" placeholder="Your name" value={name} onChange={(e)=>setName(e.target.value)}/>
                     </div>
                     <div className="grid gap-1">
                     <Label htmlFor="email">Email</Label>
-                    <Input id="email" type="email" placeholder="you@example.com" />
+                    <Input id="email" type="email" placeholder="you@example.com" value={email} onChange={(e)=>setEmail(e.target.value)}/>
                     </div>
                     <div className="grid gap-1">
                     <Label htmlFor="email">Username</Label>
-                    <Input id="username" type="text" placeholder="@username" />
+                    <Input id="username" type="text" placeholder="@username" value={username} onChange={(e)=>setUsername(e.target.value)}/>
                     </div>
                     <div className="grid gap-1">
                     <Label htmlFor="password">Set Password</Label>

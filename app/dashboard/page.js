@@ -15,10 +15,38 @@ import Navbar from "@/components/navbar";
 import { useRouter } from "next/navigation";
 import { Router } from "lucide-react";
 import PocketBase from "pocketbase";
+import {useEffect, useState} from 'react';
+import Pin from "components/pin";
 
 export default function Component() {
   let router = useRouter();
   const pb = new PocketBase(process.env.NEXT_PUBLIC_PB_URL);
+  console.log(pb.authStore.model)
+  let [profileInfo, setProfileInfo] = useState(null);
+  let [authState, setAuthState] = useState(null);
+
+  if(pb.authStore.model == null) {
+    router.push("/login");
+  }
+  
+  // get additional profile info
+  useEffect(()=>{
+    setAuthState(pb.authStore.model);
+    async function getProfileInfo() {
+      let profile;
+      try {
+        profile = await pb.collection("profile").getList(1,1,{
+          filter: `user="${pb.authStore.model.id}"`
+        });
+      } catch (e){
+        console.error(e);
+      }
+      console.log(profile);
+      setProfileInfo(profile.items[0]);
+    }
+    getProfileInfo();
+  }, []);
+
   return ( 
     <div className="flex flex-col min-h-[100dvh]">
       <Navbar/>
@@ -29,8 +57,9 @@ export default function Component() {
               <div className="bg-[#6366F1] text-white py-4 px-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h2 className="text-2xl font-bold">Bryson Van Ryn</h2>
-                    <p className="text-sm text-[#FCD34D]">@brysonvanryn</p>
+                    <p className="text-xs italic"><Pin/> Caledonia, MI</p>
+                    <h2 className="text-2xl font-bold">{authState?authState.name:"Loading..."}</h2>
+                    <p className="text-sm text-[#FCD34D]">{authState?"@"+authState.username:"Loading..."}</p>
                   </div>
                   <Button variant="ghost" size="icon" className="rounded-full">
                     <SettingsIcon className="w-5 h-5" onClick={()=>router.push("/dashboard/settings")}/>
@@ -40,7 +69,7 @@ export default function Component() {
               <div className="p-6 space-y-4">
                 <div className="flex items-center gap-4">
                   <div>
-                    <p>I like running I guess.</p>
+                    <p>{profileInfo?profileInfo.bio:"Loading..."}</p>
                     <br/>
                     <h3 className="text-lg font-bold">Personal Bests</h3>
                     <p className="text-gray-500 dark:text-gray-400">
