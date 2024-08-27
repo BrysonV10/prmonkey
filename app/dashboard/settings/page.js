@@ -1,5 +1,5 @@
-
 "use client"
+
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible"
@@ -11,7 +11,8 @@ import Footer from "components/footer"
 import { useRouter } from "next/navigation"
 import { Textarea } from "components/ui/textarea"
 import PocketBase from "pocketbase"
-import {useState} from "react"
+import {useEffect, useState} from "react"
+import StravaConnectButton from "components/connect_strava"
 
 export default function Component() {
     let router = useRouter();
@@ -19,6 +20,50 @@ export default function Component() {
     let [name, setName] = useState(pb.authStore.model.name);
     let [email, setEmail] = useState(pb.authStore.model.email);
     let [username, setUsername] = useState(pb.authStore.model.username);
+    let [waitingForStrava, setWaitingForStrava] = useState(false);
+    let [stravaLinked, setStravaLinked] = useState(false);
+
+    useEffect(()=> {
+      pb.collection("users").listAuthMethods().then((res)=> {
+        if(res.authProviders.length != 0){
+          setStravaLinked(true);
+        }
+      })
+    }, [])
+
+    console.log(pb.authStore.model);
+    var checkInterval = null;
+    async function connectStrava(){
+      setWaitingForStrava(true);
+      setTimeout(()=> {
+        checkInterval = setInterval(stravaCheckLoop, 3000);
+      }, 3000);
+      try {
+        let res = await pb.collection("users").listAuthMethods();
+        console.log(res);
+        window.localStorage.setItem("OAuthProviderInfo", JSON.stringify(res.authProviders[0]));
+        let oauthWindow = window.open(`https://www.strava.com/oauth/authorize?client_id=73397&response_type=code&redirect_uri=http://localhost:3000/exchange_token&approval_prompt=force&scope=activity:read&state=${res.authProviders[0].state}`, "PR Monkey Authorization");
+        if(window.focus) oauthWindow.focus();
+        return false;
+      } catch (e){
+        console.error(e);
+      }
+    }
+
+    function stravaCheckLoop(){
+      pb.collection("users").listAuthMethods().then((res)=> {
+        console.log(res);
+        if(res.authProviders.length != 0){
+          setWaitingForStrava(false);
+          setStravaLinked(true);
+          clearInterval(checkInterval);
+          return;
+        }
+      }).catch((err)=> {
+        console.error(err);
+      })
+    }
+    
     return (
     <div className="flex flex-col min-h-[100dvh] bg-background">
         <Navbar />
@@ -60,6 +105,8 @@ export default function Component() {
                     </div>
                 </div>
                 <Button className="mt-4">Save Changes</Button>
+                {!stravaLinked?<StravaConnectButton className="cursor-pointer" onClick={connectStrava}/>:<p>Strava Account Linked!</p>}
+                {waitingForStrava? <p>No Strava link yet...</p>: null}
                 </CollapsibleContent>
             </Collapsible>
 
